@@ -18,18 +18,23 @@ public class DeviceService {
         this.deviceRepository = deviceRepository;
     }
 
-    public DeviceEntity saveDevice(DeviceData device) {
+    public DeviceEntity saveOrUpdateDevice(DeviceData data) {
 
-        DeviceEntity entity = new DeviceEntity();
+        DeviceEntity device = deviceRepository.findByDeviceId(data.getDeviceId())
+                .orElse(new DeviceEntity());
 
-        entity.setDeviceName(device.getDeviceName());
-        entity.setManufacturer(device.getManufacturer());
-        entity.setAndroidVersion(device.getAndroidVersion());
-        entity.setBatteryPercentage(device.getBatteryPercentage());
-        entity.setStorageInfo(device.getStorageInfo());
-        entity.setCreatedAt(LocalDateTime.now());
+        device.setDeviceId(data.getDeviceId());
+        device.setDeviceName(data.getDeviceName());
+        device.setManufacturer(data.getManufacturer());
+        device.setAndroidVersion(data.getAndroidVersion());
+        device.setBatteryPercentage(data.getBatteryPercentage());
+        device.setStorageInfo(data.getStorageInfo());
 
-        return deviceRepository.save(entity);
+        if (device.getCreatedAt() == null) {
+            device.setCreatedAt(LocalDateTime.now());
+        }
+
+        return deviceRepository.save(device);
     }
     public List<DeviceEntity> getAllDevices() {
         return deviceRepository.findAll();

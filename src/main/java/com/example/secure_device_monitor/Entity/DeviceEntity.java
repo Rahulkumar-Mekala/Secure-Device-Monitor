@@ -23,6 +23,9 @@ public class DeviceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name = "device_id", unique = true, nullable = false)
+    private String deviceId;
 
     @Column(name = "device_name")
     private String deviceName;

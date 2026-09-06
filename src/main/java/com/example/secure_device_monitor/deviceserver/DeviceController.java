@@ -15,11 +15,11 @@ import com.example.secure_device_monitor.Service.DeviceService;
 @RequestMapping("/api/device")
 public class DeviceController {
 
-    private final DeviceService deviceService;
+	private final DeviceService deviceService;
 
-    public DeviceController(DeviceService deviceService) {
-        this.deviceService = deviceService;
-    }
+	public DeviceController(DeviceService deviceService) {
+	    this.deviceService = deviceService;
+	}
     
     @GetMapping
     public List<DeviceEntity> getAllDevices() {
@@ -30,7 +30,7 @@ public class DeviceController {
     public DeviceInfo receiveDeviceInfo(
             @RequestBody DeviceData device) {
 
-        deviceService.saveDevice(device);
+        deviceService.saveOrUpdateDevice(device);
 
         return new DeviceInfo(
                 device.getDeviceName(),

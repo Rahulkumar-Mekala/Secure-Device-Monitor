@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DeviceData {
 
+    private String deviceId;
     private String deviceName;
     private String manufacturer;
     private String androidVersion;
-    private int batteryPercentage;
+    private Integer batteryPercentage;
     private String storageInfo;
 
 }
