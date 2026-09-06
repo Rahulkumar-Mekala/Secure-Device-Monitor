@@ -51,4 +51,11 @@ public class DeviceService {
         return device.getLastSeen()
                 .isAfter(LocalDateTime.now().minusMinutes(20));
     }
+    public DeviceEntity getDeviceByDeviceId(String deviceId) {
+
+        return deviceRepository.findByDeviceId(deviceId)
+                .orElseThrow(() ->
+                        new RuntimeException("Device not found: " + deviceId)
+                );
+    }
 }
