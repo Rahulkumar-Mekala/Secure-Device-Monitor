@@ -29,7 +29,7 @@ public class DeviceService {
         device.setAndroidVersion(data.getAndroidVersion());
         device.setBatteryPercentage(data.getBatteryPercentage());
         device.setStorageInfo(data.getStorageInfo());
-
+        device.setLastSeen(LocalDateTime.now());
         if (device.getCreatedAt() == null) {
             device.setCreatedAt(LocalDateTime.now());
         }

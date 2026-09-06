@@ -44,4 +44,6 @@ public class DeviceEntity {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+    @Column(name = "last_seen")
+    private LocalDateTime lastSeen;
 }
