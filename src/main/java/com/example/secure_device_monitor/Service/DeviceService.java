@@ -30,6 +30,8 @@ public class DeviceService {
         device.setBatteryPercentage(data.getBatteryPercentage());
         device.setStorageInfo(data.getStorageInfo());
         device.setLastSeen(LocalDateTime.now());
+        device.setLastSeen(LocalDateTime.now());
+        device.setStatus("ONLINE");
         if (device.getCreatedAt() == null) {
             device.setCreatedAt(LocalDateTime.now());
         }
@@ -38,5 +40,15 @@ public class DeviceService {
     }
     public List<DeviceEntity> getAllDevices() {
         return deviceRepository.findAll();
+    }
+  
+    public boolean isDeviceOnline(DeviceEntity device) {
+
+        if (device.getLastSeen() == null) {
+            return false;
+        }
+
+        return device.getLastSeen()
+                .isAfter(LocalDateTime.now().minusMinutes(20));
     }
 }
