@@ -17,7 +17,6 @@ public class DeviceController {
 	            "Connected"
 	    );
 	}
-	
 	  @PostMapping
 	    public DeviceInfo receiveDeviceInfo(@RequestBody DeviceData device) {
 
