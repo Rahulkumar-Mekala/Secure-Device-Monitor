@@ -14,16 +14,20 @@ import com.example.secure_device_monitor.Dto.LoginRequest;
 import com.example.secure_device_monitor.Dto.RegisterRequest;
 import com.example.secure_device_monitor.Entity.UserEntity;
 import com.example.secure_device_monitor.Service.AuthService;
+import com.example.secure_device_monitor.Service.JwtService;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtService jwtService;
+    public AuthController(AuthService authService, JwtService jwtService) {
+		this.authService = authService;
+		this.jwtService = jwtService;
+	}
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+	
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
@@ -31,12 +35,12 @@ public class AuthController {
 
         try {
 
-            UserEntity user = authService.register(request);
+            authService.register(request);
 
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new AuthResponse(
-                            user.getId(),
-                            user.getEmail(),
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(Map.of(
+                            "message",
                             "Registration successful"
                     ));
 
@@ -45,7 +49,8 @@ public class AuthController {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(Map.of(
-                            "message", e.getMessage()
+                            "message",
+                            e.getMessage()
                     ));
         }
     }
@@ -54,9 +59,18 @@ public class AuthController {
             @RequestBody LoginRequest request) {
 
         try {
+
             UserEntity user = authService.login(request);
 
-            return ResponseEntity.ok(user);
+            String token =
+                    jwtService.generateToken(user.getEmail());
+
+            return ResponseEntity.ok(
+                    Map.of(
+                            "message", "Login successful",
+                            "token", token
+                    )
+            );
 
         } catch (RuntimeException e) {
 
