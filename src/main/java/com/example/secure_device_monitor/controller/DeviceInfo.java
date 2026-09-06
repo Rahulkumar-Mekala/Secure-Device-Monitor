@@ -1,4 +1,4 @@
-package com.example.secure_device_monitor.deviceserver;
+package com.example.secure_device_monitor.controller;
 
 
 	public record DeviceInfo(

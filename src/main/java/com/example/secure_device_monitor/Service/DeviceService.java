@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.secure_device_monitor.Entity.DeviceEntity;
 import com.example.secure_device_monitor.Repository.DeviceRepository;
-import com.example.secure_device_monitor.deviceserver.DeviceData;
+import com.example.secure_device_monitor.controller.DeviceData;
 
 @Service
 public class DeviceService {

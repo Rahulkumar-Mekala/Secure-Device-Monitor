@@ -1,4 +1,4 @@
-package com.example.secure_device_monitor.deviceserver;
+package com.example.secure_device_monitor.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
