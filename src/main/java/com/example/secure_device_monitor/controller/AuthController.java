@@ -1,10 +1,15 @@
 package com.example.secure_device_monitor.controller;
 
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.secure_device_monitor.Dto.AuthResponse;
 import com.example.secure_device_monitor.Dto.LoginRequest;
 import com.example.secure_device_monitor.Dto.RegisterRequest;
 import com.example.secure_device_monitor.Entity.UserEntity;
@@ -21,16 +26,45 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public UserEntity register(
+    public ResponseEntity<?> register(
             @RequestBody RegisterRequest request) {
 
-        return authService.register(request);
-    }
+        try {
 
+            UserEntity user = authService.register(request);
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new AuthResponse(
+                            user.getId(),
+                            user.getEmail(),
+                            "Registration successful"
+                    ));
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of(
+                            "message", e.getMessage()
+                    ));
+        }
+    }
     @PostMapping("/login")
-    public UserEntity login(
+    public ResponseEntity<?> login(
             @RequestBody LoginRequest request) {
 
-        return authService.login(request);
+        try {
+            UserEntity user = authService.login(request);
+
+            return ResponseEntity.ok(user);
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of(
+                            "message", e.getMessage()
+                    ));
+        }
     }
 }
